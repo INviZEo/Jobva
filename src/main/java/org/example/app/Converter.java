@@ -7,7 +7,6 @@ import org.example.enums.LengthUnit;
 import org.example.enums.TemperatureUnit;
 import org.example.enums.WeightUnit;
 import org.example.exceptions.CategoryException;
-import org.example.exceptions.NotExistNumberException;
 
 import java.util.Scanner;
 
@@ -15,65 +14,85 @@ public class Converter {
     private final Scanner scanner = new Scanner(System.in);
 
     public void run() throws Exception {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter what will we measure");
-        String input = scanner.nextLine().toUpperCase();
+        System.out.println("The converter, format: category value from to");
+        System.out.println("Example: weight 10 pound kilogram");
+        System.out.println("Enter 'exit' for exit the program\n");
 
-        switch (input) {
+        while (true) {
+            System.out.println(">>> ");
+            String input = scanner.nextLine().trim();
+            if (input.equalsIgnoreCase("exit")) {
+                System.out.println("Goodbye!");
+                break;
+            }
+            try {
+                processSingleLine(input);
+            } catch (CategoryException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        }
+    }
+
+
+    private void processSingleLine(String input) throws CategoryException {
+        String[] parts = input.split("\\s+");
+        if (parts.length != 4) {
+            throw new CategoryException("Invalid input: Example: weight 10 pound kilogram");
+        }
+
+        String category = parts[0].toUpperCase();
+        double value = parseValueFromString(parts[1]);
+        String fromStr = parts[2].toUpperCase();
+        String toStr = parts[3].toUpperCase();
+
+        switch (category) {
             case "WEIGHT" -> {
                 WeightConverter weightConverter = new WeightConverter();
-                WeightUnit from = readUnit(WeightUnit.class, "Enter Weight Unit");
-                WeightUnit to = readUnit(WeightUnit.class, "Enter Weight Unit");
-                double value = readValue("Enter number of mass");
+                WeightUnit from = readUnit(WeightUnit.class, fromStr);
+                WeightUnit to = readUnit(WeightUnit.class, toStr);
                 double result = weightConverter.convert(value, from, to);
                 printResult(value, from, result, to);
             }
 
             case "LENGTH" -> {
                 LengthConverter lengthConverter = new LengthConverter();
-                LengthUnit from = readUnit(LengthUnit.class, "Enter Length Unit");
-                LengthUnit to = readUnit(LengthUnit.class, "Enter Length Unit");
-                double value = readValue("Enter number of length");
+                LengthUnit from = readUnit(LengthUnit.class, fromStr);
+                LengthUnit to = readUnit(LengthUnit.class, toStr);
                 double result = lengthConverter.convert(value, from, to);
                 printResult(value, from, result, to);
             }
 
             case "TEMPERATURE" -> {
                 TemperatureConverter temperatureConverter = new TemperatureConverter();
-                TemperatureUnit from = readUnit(TemperatureUnit.class, "Enter Temperature Unit");
-                TemperatureUnit to = readUnit(TemperatureUnit.class, "Enter Temperature Unit");
-                double value = readValue("Enter number of temperature");
+                TemperatureUnit from = readUnit(TemperatureUnit.class, fromStr);
+                TemperatureUnit to = readUnit(TemperatureUnit.class, toStr);
                 double result = temperatureConverter.convert(value, from, to);
                 printResult(value, from, result, to);
             }
-
-            default -> throw new CategoryException("Not supported category: " + input);
+            default -> throw new CategoryException("Not supported category: " + category);
         }
-
     }
+
 
     private <T extends Enum<T>> T readUnit(Class<T> enumClass, String prompt) throws CategoryException {
-        System.out.println(prompt);
-        String input = scanner.nextLine().trim().toUpperCase();
         try {
-            return Enum.valueOf(enumClass, input);
+            return Enum.valueOf(enumClass, prompt);
         } catch (IllegalArgumentException e) {
-            throw new CategoryException("Неверная единица: " + input);
+            throw new CategoryException("Wrong unit: " + prompt + ". Available units: "
+                    + getAvailableUnits(enumClass));
         }
     }
 
-    private double readValue(String prompt) throws NotExistNumberException {
-        System.out.println(prompt);
+    private double parseValueFromString(String s) throws CategoryException {
         try {
-            return scanner.nextDouble();
-        } catch (Exception e) {
-            scanner.nextLine();
-            throw new NotExistNumberException("Invalid number. Please enter a number (e.g. 10.5)");
+            return Double.parseDouble(s);
+        } catch (NumberFormatException e) {
+            throw new CategoryException("Wrong number: '" + s + "'");
         }
     }
 
     private void printResult(double value, Enum<?> from, double result, Enum<?> to) {
-        System.out.printf("%.3f %s = %.3f %s%n", value, from, result, to);
+        System.out.printf("%.2f %s = %.2f %s%n", value, from, result, to);
     }
 
     private <T extends Enum<T>> String getAvailableUnits(Class<T> enumClass) {
@@ -83,7 +102,7 @@ public class Converter {
         }
 
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < units.length - 1; i++) {
+        for (int i = 0; i < units.length; i++) {
             sb.append(units[i]);
             if (i < units.length - 1) {
                 sb.append(", ");
