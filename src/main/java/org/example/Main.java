@@ -1,10 +1,10 @@
 package org.example;
 
-import org.example.app.Converter;
+import org.example.SearchInList;
 
 public class Main {
-    public static void main(String[] args) throws Exception {
-        Converter converter = new Converter();
-        converter.run();
+    public static void main(String[] args) {
+        GroupByLength groupByLength = new GroupByLength();
+        groupByLength.group();
     }
 }
