@@ -1,10 +1,11 @@
 package org.example;
 
 import java.util.HashSet;
+import java.util.Set;
 
 public class SetIntersection {
     public void searchDuplicate() {
-        HashSet<String> hashSet = new HashSet<>();
+        Set<String> hashSet = new HashSet<>();
         hashSet.add("a");
         hashSet.add("b");
         hashSet.add("c");

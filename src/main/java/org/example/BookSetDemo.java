@@ -1,10 +1,11 @@
 package org.example;
 
+import java.util.Set;
 import java.util.TreeSet;
 
 public class BookSetDemo {
     public void checkYearOfBook() {
-        TreeSet<Book> treeSet = new TreeSet<>();
+        Set<Book> treeSet = new TreeSet<>();
         treeSet.add(new Book("Dos", 1481));
         treeSet.add(new Book("Kostry", 1777));
         treeSet.add(new Book("Slava", 2025));

@@ -5,7 +5,7 @@ import java.util.*;
 public class DuplicateChecker<T> {
     public void check () {
         Scanner scanner = new Scanner(System.in);
-        HashSet<String> hashSet = new HashSet<>();
+        Set<String> hashSet = new HashSet<>();
         while (true) {
             String input = scanner.nextLine();
             if (input.equalsIgnoreCase("exit")) {

@@ -1,12 +1,13 @@
 package org.example;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class PhoneBook {
     public void searchNumberForName() {
         Scanner sc = new Scanner(System.in);
-        HashMap<String, String> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         map.put("Nikita", "+789214121");
         map.put("Denis", "+1914859484");
         map.put("Vova", "+1488228322");

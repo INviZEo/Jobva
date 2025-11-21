@@ -1,13 +1,12 @@
 package org.example;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
 public class TopScorer {
     public void bigBallsMan() {
-        HashMap<String, Integer> hashMap = new HashMap<>();
+        Map<String, Integer> hashMap = new HashMap<>();
         hashMap.put("Gir", 181);
         hashMap.put("Kas", 13);
         hashMap.put("Cod", 1811);

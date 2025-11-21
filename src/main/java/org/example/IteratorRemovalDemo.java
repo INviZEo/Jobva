@@ -2,11 +2,12 @@ package org.example;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 
 public class IteratorRemovalDemo {
     public void deleteByIterator() {
-        LinkedList<Integer> list = new LinkedList<>();
+        List<Integer> list = new LinkedList<>();
         list.add(1);
         list.add(2);
         list.add(3);

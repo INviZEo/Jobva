@@ -1,13 +1,10 @@
 package org.example;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class GroupByFirstLetter {
     public void group() {
-        HashMap<Character, List<String>> groups = new HashMap<>();
+        Map<Character, List<String>> groups = new HashMap<>();
 
         String[] names = {
                 "Анна", "Алексей", "Борис", "Бела", "Владимир",
